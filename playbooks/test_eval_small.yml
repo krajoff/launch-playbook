@@ -1,0 +1,17 @@
+---
+- name: Проверка доступности серверов
+  hosts: all
+  gather_facts: no
+  vars:
+    default_message: "Пинг успешен!"
+
+  tasks:
+    - name: Проверка соединения с помощью модуля ping
+      ansible.builtin.ping:
+      register: ping_result
+      failed_when: ping_result.failed
+      ignore_errors: yes
+
+    - name: Вывод результата пинга
+      debug:
+        msg: "{{ ping_result }}"
